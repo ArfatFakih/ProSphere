@@ -6,6 +6,7 @@ import connectDb from "./config/dbConnection.js";
 const PORT = 9080;
 
 import postRoutes from './routes/posts.routes.js';
+import userRoutes from './routes/user.routes.js';
 
 
 dotenv.config();
@@ -17,6 +18,7 @@ connectDb();
 app.use(cors());
 app.use(express.json());
 
+app.use(userRoutes);
 app.use(postRoutes);
 
 app.listen(PORT, () => {
