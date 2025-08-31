@@ -5,6 +5,7 @@ import crypto from "crypto";
 import PDFDocument from "pdfkit";
 import fs from "fs";
 import ConnectionRequest from "../models/connections.model.js";
+import { profile } from "console";
 
 
 const convertUserDataToPDF = async (userData) => {
@@ -15,7 +16,26 @@ const convertUserDataToPDF = async (userData) => {
 
     doc.pipe(stream);
 
-    doc.image(`uploads/${userData.userId.profilePicture}`, { align: "center", width: 100 });
+    const imagePath = `uploads/${userData.userId.profilePicture}`;
+
+    try {
+        if (userData.userId.profilePicture && fs.existsSync(imagePath)) {
+            const stats = fs.statSync(imagePath);
+            if (stats.size > 0) {
+                doc.image(imagePath, { align: "center", width: 100 });
+            } else {
+                doc.fontSize(12).text('Profile Picture: [Empty File]', { align: "center" });
+            }
+        } else {
+            doc.fontSize(12).text('Profile Picture: [Not Available]', { align: "center" });
+        }
+    } catch (error) {
+        console.error('Error processing profile picture:', error.message);
+        doc.fontSize(12).text('Profile Picture: [Error Loading]', { align: "center" });
+    }
+
+    doc.moveDown(1); 
+
     doc.fontSize(14).text(`Name: ${userData.userId.name}`);
     doc.fontSize(14).text(`Username: ${userData.userId.username}`);
     doc.fontSize(14).text(`Email: ${userData.userId.email}`);
@@ -258,7 +278,7 @@ const sendConnectionRequest = async (req, res) => {
 
 
 const getMyConnectionsRequests = async (req, res) => {
-    const { token } = req.body;
+    const { token } = req.query;
 
     try {
         
@@ -280,7 +300,7 @@ const getMyConnectionsRequests = async (req, res) => {
 
 
 const allMyConnectionRequest = async (req, res) => {
-    const { token } = req.body;
+    const { token } = req.query;
 
     try {
         
@@ -332,6 +352,32 @@ const acceptConnectionRequest = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 }
+
+
+export const getUserProfileAndUserBasedOnUsername = async (req, res) => {
+        
+    const { username } = req.query;
+    
+    try {
+
+        const user = await User.findOne({
+            username
+        });
+
+        if(!user){
+            return res.status(404).json({ message: "User not found" })
+        }
+
+        const userProfile = await Profile.findOne({ userId: user._id })
+            .populate('userId', 'name username email profilePicture');
+
+        return res.json({ "profile": userProfile });
+        
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
 
 
 export {
