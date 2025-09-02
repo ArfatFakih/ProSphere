@@ -12,7 +12,7 @@ const initialState = {
     isTokenThere: false,
     profileFetched: false,
     connections: [],
-    connetionRequest: [],
+    connectionRequest: [],
     all_users: [],
     all_profiles_fetched: false
 }
@@ -92,7 +92,7 @@ const authSlice = createSlice({
             state.message = action.payload
         })
         .addCase(getMyConnectionRequests.fulfilled, (state, action) => {
-            state.connetionRequest = action.payload
+            state.connectionRequest = action.payload
         })
         .addCase(getMyConnectionRequests.rejected, (state, action) => {
             state.message = action.payload
