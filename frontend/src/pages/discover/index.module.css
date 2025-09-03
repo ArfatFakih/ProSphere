@@ -13,9 +13,26 @@
     align-items: center;
     box-shadow: 10px 10px 10px 0px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    width: 100%; 
+    box-sizing: border-box; 
+    min-height: 80px; 
 }
 
 .userCard_image {
-    width: 10%;
+    width: 60px;
+    height: 60px; 
     border-radius: 50%;
+    object-fit: cover; 
+    flex-shrink: 0;
+}
+
+.userCard h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.userCard p {
+    margin: 0;
+    font-size: 0.9rem;
 }

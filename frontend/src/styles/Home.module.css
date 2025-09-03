@@ -51,3 +51,25 @@
     padding-block: 0.6rem;
     border-radius: 1.2rem;
 }
+
+
+@media only screen and (max-width: 600px) {
+    .mainContainer {
+        flex-direction: column;
+        gap: 2rem;
+        padding-top: 2rem;
+    }
+
+    .mainContainer_left {
+        flex: 1;
+        padding-top: 3rem;
+    }
+
+    .mainContainer_right {
+        flex: 1;
+    }
+
+    .mainContainer_right img {
+        width: 100%;
+    }
+}
