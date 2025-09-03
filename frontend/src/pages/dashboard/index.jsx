@@ -70,7 +70,7 @@ const Dashboard = () => {
                       return (
                         <div key={post._id} className={styles.singleCard}>
                           <div className={styles.singleCard_profileContainer}>
-                            <img className={styles.userProfile} src={`${BASE_URL}/${authState.user.userId.profilePicture}`} alt="Post" />
+                            <img className={styles.userProfile} src={`${BASE_URL}/${post.userId.profilePicture}`} alt="Post" />
                             <div>
                               <div style={{display: "flex", justifyContent: "space-between"}}>
 
